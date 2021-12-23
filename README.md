@@ -18,7 +18,9 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```bash
+mysql_in_docker help
+```
 
 ## Contributing
 
