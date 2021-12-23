@@ -6,5 +6,5 @@ require "./lib/commands"
 module MysqlInDocker
   class Error < StandardError; end
 
-  Commands.start(ARGV)
+  Commands.start(ARGV) unless ENV["ENV"] == "test"
 end
