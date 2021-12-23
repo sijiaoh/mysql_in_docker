@@ -5,6 +5,10 @@ require "open3"
 
 module MysqlInDocker
   class Commands < Thor
+    def self.exit_on_failure?
+      true
+    end
+
     desc "start ID VERSION PORT MYSQL_ROOT_PASSWORD", "Prepare mysql container."
     def start(id, version, port, mysql_root_password)
       status = docker_command "start #{get_container_name(id)}"
