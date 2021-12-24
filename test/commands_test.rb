@@ -29,7 +29,7 @@ describe Commands.name do
     assert_includes volumes, commands.send(:get_container_name, "test")
 
     start commands
-    commands.rm "test"
+    commands.remove "test"
     refute_includes containers, commands.send(:get_container_name, "test")
     refute_includes volumes, commands.send(:get_container_name, "test")
   end

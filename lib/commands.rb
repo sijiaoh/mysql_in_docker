@@ -34,8 +34,8 @@ module MysqlInDocker
       end
     end
 
-    desc "rm ID", "Remove mysql container and volume."
-    def rm(id)
+    desc "remove ID", "Remove mysql container and volume."
+    def remove(id)
       stop id
 
       status = docker_command "volume rm #{get_container_name(id)}"
