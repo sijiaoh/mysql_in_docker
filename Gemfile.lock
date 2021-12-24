@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    mysql_in_docker (0.0.1)
+    mysql_in_docker (0.0.2)
       thor
 
 GEM
