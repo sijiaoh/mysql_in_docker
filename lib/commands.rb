@@ -61,6 +61,15 @@ module MysqlInDocker
       "mysql_in_docker_#{id}"
     end
 
+    def get_image_name(version)
+      is_arm = RUBY_PLATFORM.start_with? "arm"
+      image = is_arm ? "mysql/mysql-server" : "mysql"
+
+      return "#{image}:8.0" if is_arm && version == "8"
+
+      "#{image}:#{version}"
+    end
+
     def up_command(id, version, port, mysql_root_password) # rubocop:disable Metrics/MethodLength
       [
         "run",
@@ -72,7 +81,7 @@ module MysqlInDocker
         "--volume",
         "#{get_container_name(id)}:/var/lib/mysql",
         "-d",
-        "mysql:#{version}"
+        get_image_name(version)
       ].join(" ")
     end
   end
