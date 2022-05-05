@@ -61,21 +61,29 @@ module MysqlInDocker
       "mysql_in_docker_#{id}"
     end
 
-    def get_image_name(version)
-      is_arm = RUBY_PLATFORM.start_with? "arm"
-      image = is_arm ? "mysql/mysql-server" : "mysql"
+    def arm?
+      RUBY_PLATFORM.start_with? "arm"
+    end
 
-      return "#{image}:8.0" if is_arm && version == "8"
+    def get_image_name(version)
+      image = arm? ? "mysql/mysql-server" : "mysql"
+
+      return "#{image}:8.0" if arm? && version == "8"
 
       "#{image}:#{version}"
+    end
+
+    def get_envs(mysql_root_password)
+      arr = ["--env", "MYSQL_ROOT_PASSWORD=#{mysql_root_password}"]
+      arr.concat ["--env", "MYSQL_ROOT_HOST=%"] if arm?
+      arr
     end
 
     def up_command(id, version, port, mysql_root_password) # rubocop:disable Metrics/MethodLength
       [
         "run",
         "--name", get_container_name(id),
-        "--env",
-        "MYSQL_ROOT_PASSWORD=#{mysql_root_password}",
+        *get_envs(mysql_root_password),
         "--publish",
         "#{port}:3306",
         "--volume",
